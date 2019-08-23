@@ -14,19 +14,7 @@ if [ -s /etc/redhat-release ]; then
 
 elif [ -f /etc/debian_version ]; then
     # Includes Ubuntu, Debian
-    sudo apt-get install g++
-    sudo apt-get install cmake
-    sudo apt-get install libcunit1-dev
-    sudo apt-get install libaio-dev
-    sudo apt-get install libtbb-dev
-    sudo apt-get install openssl
-    sudo apt-get install libnuma-dev
-
-    #boost-program-options
-    sudo apt-get install libboost-dev
-
-    #aerospike
-    sudo apt-get install libev-dev
+    apt-get install -y g++ cmake libcunit1-dev libaio-dev libtbb-dev openssl libnuma-dev libboost-dev libev-dev
 
 else
     echo "unsupported system type."
