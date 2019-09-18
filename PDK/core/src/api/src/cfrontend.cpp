@@ -69,7 +69,86 @@ struct {
   char configfile[256];
 } g_env;
 
-std::map<int, std::string> errortable;
+static std::map<int, std::string> errortable = {
+	{ 0x0, "KVS_SUCCESS" },
+	{ 0x001, "KVS_ERR_BUFFER_SMALL"},
+	{ 0x002, "KVS_ERR_COMMAND_INITIALIZED" },
+	{ 0x003, "KVS_ERR_COMMAND_SUBMITTED " },
+	{ 0x004, "KVS_ERR_DEV_CAPACITY" },
+	{ 0x005, "KVS_ERR_DEV_INIT" },
+	{ 0x006, "KVS_ERR_DEV_INITIALIZED" },
+	{ 0x007, "KVS_ERR_DEV_NOT_EXIST" },
+	{ 0x008, "KVS_ERR_DEV_SANITIZE_FAILED" },
+	{ 0x009, "KVS_ERR_DEV_SANIZE_IN_PROGRESS" },
+	{ 0x00A, "KVS_ERR_ITERATOR_COND_INVALID"},
+	{ 0x00B, "KVS_ERR_ITERATOR_MAX" },
+	{ 0x00C, "KVS_ERR_ITERATOR_NOT_EXIST" },
+	{ 0x00D, "KVS_ERR_ITERATOR_OPEN" },
+	{ 0x00E, "KVS_ERR_KEY_EXIST"},
+	{ 0x00F, "KVS_ERR_KEY_INVALID"},
+	{ 0x010, "KVS_ERR_KEY_LENGTH_INVALID"},
+	{ 0x011, "KVS_ERR_KEY_NOT_EXIST"},
+	{ 0x012, "KVS_ERR_OPTION_INVALID"},
+	{ 0x013, "KVS_ERR_PARAM_INVALID"},
+	{ 0x014, "KVS_ERR_PURGE_IN_PROGRESS  "},
+	{ 0x015, "KVS_ERR_QUEUE_CQID_INVALID" },
+	{ 0x016, "KVS_ERR_QUEUE_DELETION_INVALID"},
+	{ 0x017, "KVS_ERR_QUEUE_IN_SUTDOWN" },
+	{ 0x018, "KVS_ERR_QUEUE_IS_FULL" },
+	{ 0x019, "KVS_ERR_QUEUE_MAX_QUEUE"},
+	{ 0x01A, "KVS_ERR_QUEUE_QID_INVALID"},
+	{ 0x01B, "KVS_ERR_QUEUE_QSIZE_INVALID"},
+	{ 0x01C, "KVS_ERR_QUEUE_SQID_INVALID"},
+	{ 0x01D, "KVS_ERR_SYS_BUSY  " },
+	{ 0x01E, "KVS_ERR_SYS_IO"},
+	{ 0x01F, "KVS_ERR_TIMEOUT"},
+	{ 0x020, "KVS_ERR_UNCORRECTIBLE"},
+	{ 0x021, "KVS_ERR_VALUE_LENGTH_INVALID"},
+	{ 0x022, "KVS_ERR_VALUE_LENGTH_MISALIGNED"},
+	{ 0x023, "KVS_ERR_VALUE_OFFSET_INVALID"},
+	{ 0x024, "KVS_ERR_VALUE_UPDATE_NOT_ALLOWED"},
+	{ 0x025, "KVS_ERR_VENDOR"},
+	{ 0x026, "KVS_ERR_PERMISSION"},
+	{ 0x027, "KVS_ERR_ENV_NOT_INITIALIZED"},
+	{ 0x028, "KVS_ERR_DEV_NOT_OPENED"},
+	{ 0x029, "KVS_ERR_DEV_ALREADY_OPENED"},
+	{ 0x02A, "KVS_ERR_DEV_PATH_TOO_LONG"},
+	{ 0x02B, "KVS_ERR_ITERATOR_NUM_OUT_RANGE"},
+	{ 0x02C, "KVS_ERR_DD_UNSUPPORTED"},
+	{ 0x02D, "KVS_ERR_ITERATOR_BUFFER_SIZE"},
+	{ 0x200, "KVS_ERR_CACHE_INVALID_PARAM"},
+	{ 0x201, "KVS_ERR_CACHE_NO_CACHED_KEY"},
+	{ 0x202, "KVS_ERR_DD_INVALID_QUEUE_TYPE"},
+	{ 0x203, "KVS_ERR_DD_NO_AVAILABLE_RESOURCE"},
+	{ 0x204, "KVS_ERR_DD_NO_DEVICE"},
+	{ 0x205, "KVS_ERR_DD_UNSUPPORTED_CMD"},
+	{ 0x206, "KVS_ERR_DECOMPRESSION"},
+	{ 0x207, "KVS_ERR_HEAP_ALLOC_FAILURE"},
+	{ 0x208, "KVS_ERR_ITERATE_HANDLE_ALREADY_OPENED"},
+	{ 0x209, "KVS_ERR_ITERATE_REQUEST_FAIL"},
+	{ 0x20A, "KVS_ERR_MAXIMUM_VALUE_SIZE_LIMIT_EXCEEDED"},
+	{ 0x20B, "KVS_ERR_MISALIGNED_KEY_SIZE"},
+	{ 0x20C, "KVS_ERR_MISALIGNED_VALUE_OFFSET"},
+	{ 0x20D, "KVS_ERR_SDK_CLOSE"},
+	{ 0x20E, "KVS_ERR_SDK_INVALID_PARAM"},
+	{ 0x20F, "KVS_ERR_SDK_OPEN"},
+	{ 0x210, "KVS_ERR_SLAB_ALLOC_FAILURE"},
+	{ 0x211, "KVS_ERR_UNRECOVERED_ERROR"},
+	{ 0x300, "KVS_ERR_NS_ATTACHED"},
+	{ 0x301, "KVS_ERR_NS_CAPACITY"},
+	{ 0x302, "KVS_ERR_NS_DEFAULT"},
+	{ 0x303, "KVS_ERR_NS_INVALID"},
+	{ 0x304, "KVS_ERR_NS_MAX"},
+	{ 0x305, "KVS_ERR_NS_NOT_ATTACHED"},
+	{ 0x400, "KVS_ERR_CONT_CAPACITY"},
+	{ 0x401, "KVS_ERR_CONT_CLOSE"},
+	{ 0x402, "KVS_ERR_CONT_EXIST"},
+	{ 0x403, "KVS_ERR_CONT_GROUP_BY"},
+	{ 0x404, "KVS_ERR_CONT_INDEX"},
+	{ 0x405, "KVS_ERR_CONT_NAME"},
+	{ 0x406, "KVS_ERR_CONT_NOT_EXIST"},
+	{ 0x407, "KVS_ERR_CONT_OPEN"}
+};
 
 /*!Check wether the iterator bitmask is valid 
  * \desc:  bitmask should be set from the first bit of a key and it is not 
@@ -311,87 +390,6 @@ KvsDriver *_select_driver(kv_device_priv *dev) {
     return nullptr;
 }
 
-void build_error_table() {
-  errortable[0x0]="KVS_SUCCESS";
-  errortable[0x001]="KVS_ERR_BUFFER_SMALL";
-  errortable[0x002]="KVS_ERR_COMMAND_INITIALIZED";
-  errortable[0x003]="KVS_ERR_COMMAND_SUBMITTED ";
-  errortable[0x004]="KVS_ERR_DEV_CAPACITY";
-  errortable[0x005]="KVS_ERR_DEV_INIT";
-  errortable[0x006]="KVS_ERR_DEV_INITIALIZED";
-  errortable[0x007]="KVS_ERR_DEV_NOT_EXIST";
-  errortable[0x008]="KVS_ERR_DEV_SANITIZE_FAILED";
-  errortable[0x009]="KVS_ERR_DEV_SANIZE_IN_PROGRESS";
-  errortable[0x00A]="KVS_ERR_ITERATOR_COND_INVALID";
-  errortable[0x00B]="KVS_ERR_ITERATOR_MAX";
-  errortable[0x00C]="KVS_ERR_ITERATOR_NOT_EXIST";
-  errortable[0x00D]="KVS_ERR_ITERATOR_OPEN";
-  errortable[0x00E]="KVS_ERR_KEY_EXIST";
-  errortable[0x00F]="KVS_ERR_KEY_INVALID";
-  errortable[0x010]="KVS_ERR_KEY_LENGTH_INVALID";
-  errortable[0x011]="KVS_ERR_KEY_NOT_EXIST";
-  errortable[0x012]="KVS_ERR_OPTION_INVALID";
-  errortable[0x013]="KVS_ERR_PARAM_INVALID";
-  errortable[0x014]="KVS_ERR_PURGE_IN_PROGRESS  ";
-  errortable[0x015]="KVS_ERR_QUEUE_CQID_INVALID";
-  errortable[0x016]="KVS_ERR_QUEUE_DELETION_INVALID";
-  errortable[0x017]="KVS_ERR_QUEUE_IN_SUTDOWN";
-  errortable[0x018]="KVS_ERR_QUEUE_IS_FULL";
-  errortable[0x019]="KVS_ERR_QUEUE_MAX_QUEUE";
-  errortable[0x01A]="KVS_ERR_QUEUE_QID_INVALID";
-  errortable[0x01B]="KVS_ERR_QUEUE_QSIZE_INVALID";
-  errortable[0x01C]="KVS_ERR_QUEUE_SQID_INVALID";
-  errortable[0x01D]="KVS_ERR_SYS_BUSY  ";
-  errortable[0x01E]="KVS_ERR_SYS_IO";
-  errortable[0x01F]="KVS_ERR_TIMEOUT";
-  errortable[0x020]="KVS_ERR_UNCORRECTIBLE";
-  errortable[0x021]="KVS_ERR_VALUE_LENGTH_INVALID";
-  errortable[0x022]="KVS_ERR_VALUE_LENGTH_MISALIGNED";
-  errortable[0x023]="KVS_ERR_VALUE_OFFSET_INVALID";
-  errortable[0x024]="KVS_ERR_VALUE_UPDATE_NOT_ALLOWED";
-  errortable[0x025]="KVS_ERR_VENDOR";
-  errortable[0x026]="KVS_ERR_PERMISSION";
-  errortable[0x027]="KVS_ERR_ENV_NOT_INITIALIZED";
-  errortable[0x028]="KVS_ERR_DEV_NOT_OPENED";
-  errortable[0x029]="KVS_ERR_DEV_ALREADY_OPENED";
-  errortable[0x02A]="KVS_ERR_DEV_PATH_TOO_LONG";
-  errortable[0x02B]="KVS_ERR_ITERATOR_NUM_OUT_RANGE";
-  errortable[0x02C]="KVS_ERR_DD_UNSUPPORTED";
-  errortable[0x02D]="KVS_ERR_ITERATOR_BUFFER_SIZE";
-  errortable[0x200]="KVS_ERR_CACHE_INVALID_PARAM";
-  errortable[0x201]="KVS_ERR_CACHE_NO_CACHED_KEY";
-  errortable[0x202]="KVS_ERR_DD_INVALID_QUEUE_TYPE";
-  errortable[0x203]="KVS_ERR_DD_NO_AVAILABLE_RESOURCE";
-  errortable[0x204]="KVS_ERR_DD_NO_DEVICE";
-  errortable[0x205]="KVS_ERR_DD_UNSUPPORTED_CMD";
-  errortable[0x206]="KVS_ERR_DECOMPRESSION";
-  errortable[0x207]="KVS_ERR_HEAP_ALLOC_FAILURE";
-  errortable[0x208]="KVS_ERR_ITERATE_HANDLE_ALREADY_OPENED";
-  errortable[0x209]="KVS_ERR_ITERATE_REQUEST_FAIL";
-  errortable[0x20A]="KVS_ERR_MAXIMUM_VALUE_SIZE_LIMIT_EXCEEDED";
-  errortable[0x20B]="KVS_ERR_MISALIGNED_KEY_SIZE";
-  errortable[0x20C]="KVS_ERR_MISALIGNED_VALUE_OFFSET";
-  errortable[0x20D]="KVS_ERR_SDK_CLOSE";
-  errortable[0x20E]="KVS_ERR_SDK_INVALID_PARAM";
-  errortable[0x20F]="KVS_ERR_SDK_OPEN";
-  errortable[0x210]="KVS_ERR_SLAB_ALLOC_FAILURE";
-  errortable[0x211]="KVS_ERR_UNRECOVERED_ERROR";
-  errortable[0x300]="KVS_ERR_NS_ATTACHED";
-  errortable[0x301]="KVS_ERR_NS_CAPACITY";
-  errortable[0x302]="KVS_ERR_NS_DEFAULT";
-  errortable[0x303]="KVS_ERR_NS_INVALID";
-  errortable[0x304]="KVS_ERR_NS_MAX";
-  errortable[0x305]="KVS_ERR_NS_NOT_ATTACHED";
-  errortable[0x400]="KVS_ERR_CONT_CAPACITY";
-  errortable[0x401]="KVS_ERR_CONT_CLOSE";
-  errortable[0x402]="KVS_ERR_CONT_EXIST";
-  errortable[0x403]="KVS_ERR_CONT_GROUP_BY";
-  errortable[0x404]="KVS_ERR_CONT_INDEX";
-  errortable[0x405]="KVS_ERR_CONT_NAME";
-  errortable[0x406]="KVS_ERR_CONT_NOT_EXIST";
-  errortable[0x407]="KVS_ERR_CONT_OPEN";
-}
-
 const char *kvs_errstr(int32_t errorno) {
   return errortable[errorno].c_str();
 }
@@ -453,7 +451,6 @@ kvs_result kvs_open_device(const char *dev_path, kvs_device_handle *dev_hd) {
   if(_device_opened(dev_path))
     return KVS_ERR_DEV_ALREADY_OPENED;
 
-  build_error_table();
   if (!g_env.initialized) {
     WRITE_WARNING(
 		  "the library is not properly configured: please run kvs_init_env() first\n");
